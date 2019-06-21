@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import './product_create.dart';
 import './product_list.dart';
+import '../widgets/ui_elements/drawer_custom.dart';
 
 class ProductsAdminPage extends StatelessWidget {
   final Function addProduct;
@@ -14,22 +15,8 @@ class ProductsAdminPage extends StatelessWidget {
     return DefaultTabController(
         length: 2,
         child: Scaffold(
-          drawer: Drawer(
-            child: Column(
-              children: <Widget>[
-                AppBar(
-                  automaticallyImplyLeading: false,
-                  title: Text('CHOOSE'),
-                ),
-                ListTile(
-                  title: Text('All products'),
-                  onTap: () {
-                    Navigator.pushReplacementNamed(context, '/product');
-                  },
-                )
-              ],
-            ),
-          ),
+          drawer: CustomDrawer(['All Products', 'Sign Out'], ['/product', '/'],
+              [Icons.shop, Icons.exit_to_app]),
           appBar: AppBar(
             title: Text('Manage Products'),
             bottom: TabBar(tabs: <Widget>[

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../product_manager.dart';
+import '../widgets/products/products.dart';
+import '../widgets/ui_elements/drawer_custom.dart';
 
 class ProductsPage extends StatelessWidget {
   final List<Map<String, dynamic>> products;
@@ -10,31 +11,14 @@ class ProductsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: Drawer(
-          child: Column(
-            children: <Widget>[
-              AppBar(
-                automaticallyImplyLeading: false,
-                title: Text('CHOOSE'),
-              ),
-              ListTile(
-                title: Text('Manage Products'),
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, '/admin');
-                },
-              ),
-              ListTile(
-                title: Text('Sign Out'),
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, '/');
-                },
-              )
-            ],
-          ),
-        ),
+        drawer: CustomDrawer(['Manage Products', 'Sign Out'], ['/admin', '/'],
+            [Icons.edit, Icons.exit_to_app]),
         appBar: AppBar(
           title: Text('EasyList'),
+          actions: <Widget>[
+            IconButton(icon: Icon(Icons.favorite), onPressed: () {})
+          ],
         ),
-        body: ProductManager(products));
+        body: Products(products));
   }
 }

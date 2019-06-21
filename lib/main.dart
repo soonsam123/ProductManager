@@ -41,7 +41,8 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
           brightness: Brightness.light,
           primarySwatch: Colors.deepOrange,
-          accentColor: Colors.deepPurple),
+          accentColor: Colors.deepPurple,
+          buttonColor: Colors.deepPurple),
       routes: {
         '/': (BuildContext context) => AuthPage(),
         '/product': (BuildContext context) => ProductsPage(_products),
@@ -57,12 +58,14 @@ class _MyAppState extends State<MyApp> {
           final int index = int.parse(pathElements[2]);
           return MaterialPageRoute<bool>(
             builder: (context) => ProductPage(
-                _products[index]['title'], _products[index]['image']),
+                _products[index]['title'],
+                _products[index]['image'],
+                _products[index]['description'],
+                _products[index]['price']),
           );
         }
         return null;
       },
-      // If all the routes above fails it will end up in this page.
       onUnknownRoute: (RouteSettings settings) {
         return MaterialPageRoute(
             builder: (BuildContext context) => ProductsPage(_products));

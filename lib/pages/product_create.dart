@@ -9,51 +9,71 @@ class ProductCreatePage extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _ProductCreatePageState();
   }
-
 }
 
 class _ProductCreatePageState extends State<ProductCreatePage> {
-  String titleValue = '';
-  String descriptionValue = '';
-  double priceValue;
+  String _titleValue = '';
+  String _descriptionValue = '';
+  double _priceValue;
+
+  Widget _buildTitleField() {
+    return Container(
+      margin: EdgeInsets.only(bottom: 20.0),
+      child: TextField(
+        decoration: InputDecoration(labelText: 'Title'),
+        onChanged: (String value) => _titleValue = value,
+      ),
+    );
+  }
+
+  Widget _buildDescriptionField() {
+    return Container(
+        margin: EdgeInsets.only(bottom: 20.0),
+        child: TextField(
+          decoration: InputDecoration(labelText: 'Description'),
+          onChanged: (String value) => _descriptionValue = value,
+        ));
+  }
+
+  Widget _buildValueField() {
+    return Container(
+        margin: EdgeInsets.only(bottom: 20.0),
+        child: TextField(
+          decoration: InputDecoration(labelText: 'Value'),
+          onChanged: (String value) => _priceValue = double.parse(value),
+        ));
+  }
+
+  void _submitForm() {
+    final Map<String, dynamic> product = {
+      'title': _titleValue,
+      'description': _descriptionValue,
+      'price': _priceValue,
+      'image': 'assets/food.jpg'
+    };
+    widget.addProduct(product);
+    Navigator.pushReplacementNamed(context, '/product');
+  }
 
   @override
   Widget build(BuildContext context) {
+    final double deviceWidth = MediaQuery.of(context).size.width;
+    final double targetWidth = deviceWidth > 768.0 ? 500.0 : deviceWidth * 0.95;
+    final double targetPadding = deviceWidth - targetWidth;
+
     return Padding(
         padding: const EdgeInsets.all(20.0),
         child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: targetPadding / 2),
           children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(bottom: 20.0),
-              child: TextField(
-                decoration: InputDecoration(labelText: 'Title'),
-                onChanged: (String value) => titleValue = value,
-              ),
-            ),
-            Container(
-                margin: EdgeInsets.only(bottom: 20.0),
-                child: TextField(
-                  decoration: InputDecoration(labelText: 'Description'),
-                  onChanged: (String value) => descriptionValue = value,
-                )),
-            Container(
-                margin: EdgeInsets.only(bottom: 20.0),
-                child: TextField(
-                  decoration: InputDecoration(labelText: 'Value'),
-                  onChanged: (String value) => priceValue = double.parse(value),
-                )),
-            RaisedButton(onPressed: () {
-              final Map<String, dynamic> product = {
-                'title': titleValue,
-                'description': descriptionValue,
-                'price': priceValue,
-                'image': 'assets/food.jpg'
-              };
-              widget.addProduct(product);
-              Navigator.pushReplacementNamed(context, '/product');
-            }, child: Text('SAVE'),
-            textColor: Colors.white,
-            color: Theme.of(context).accentColor,)
+            _buildTitleField(),
+            _buildDescriptionField(),
+            _buildValueField(),
+            RaisedButton(
+              onPressed: _submitForm,
+              child: Text('SAVE'),
+              textColor: Colors.white,
+            )
           ],
         ));
   }
